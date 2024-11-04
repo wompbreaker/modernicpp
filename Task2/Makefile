@@ -38,4 +38,6 @@ $(OUTPUT_DIR):
 clean:
 	@rm -rf $(BUILD_DIR)/*.o $(TARGET)
 	@rm -rf $(BUILD_DIR)/*.d $(TARGET)
-	@echo "Cleaned the project."
+	@echo "Cleaned up."
+
+.PHONY: all clean

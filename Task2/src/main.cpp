@@ -1,6 +1,7 @@
 #include <memory>
 #include "MyUniquePtr.h"
 
+#include <iostream>
 #define myUP MyUniquePtr
 
 struct MyClass {
@@ -33,7 +34,7 @@ int main()
 	bar(p.get());
 	std::cout << p->z << "\n";
 
-	// Errors: disallow this
+	// Errors: disallow this. Uncomment to see the error.
 	// myUP<MyClass> q{p};
 	// myUP<MyClass> r;
 	// r = p;

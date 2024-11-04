@@ -1,5 +1,5 @@
-#ifndef _MY_UNIQUE_PTR_
-#define _MY_UNIQUE_PTR_
+#ifndef MY_UNIQUE_PTR_H
+#define MY_UNIQUE_PTR_H
 
 #include <iostream>
 #define CUSTOM_MAKE_UNIQUE
@@ -32,18 +32,21 @@ public:
 		return *this;
 	}
 
-	// Disallowed copy constructor and copy assignment operator
+	// Delete copy constructor and copy assignment operator
 	MyUniquePtr(const MyUniquePtr&) = delete;
 	MyUniquePtr& operator=(const MyUniquePtr&) = delete;
 
+	// Dereference operator
 	T& operator*() const {
 		return *m_ptr;
 	}
 
+	// Arrow operator
 	T* operator->() const {
 		return m_ptr;
 	}
 
+	// Get the raw pointer
 	T* get() const {
 		return m_ptr;
 	}
@@ -62,4 +65,4 @@ namespace mup
 }
 #endif  /* CUSTOM_MAKE_UNIQUE */
 
-#endif  /* _MY_UNIQUE_PTR_ */
+#endif  /* MY_UNIQUE_PTR_H */
