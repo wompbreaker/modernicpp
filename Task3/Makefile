@@ -1,41 +1,32 @@
-CXX := g++
-CXXFLAGS := -g -Wall -Wextra -Iinc
+# Define directories
 SRC_DIR := src
-BUILD_DIR := build
-OUTPUT_DIR := .
-EXEC_NAME := main
+BIN_DIR := bin
 
-SRCS := $(wildcard $(SRC_DIR)/*.cpp)
-OBJS := $(SRCS:$(SRC_DIR)/%.cpp=$(BUILD_DIR)/%.o)
-DEPS := $(OBJS:.o=.d)
-TARGET := $(OUTPUT_DIR)/$(EXEC_NAME)
+# Define the compiler and flags
+CXX := g++
+CXXFLAGS := -Wall -std=c++17
 
-all: $(TARGET)
-	@echo "Build finished. Run with $(TARGET)"
+# Find all cpp files in the src directory
+SOURCES := $(wildcard $(SRC_DIR)/*.cpp)
 
-$(TARGET): $(OBJS) | $(OUTPUT_DIR)
-	@$(CXX) $(CXXFLAGS) $^ -o $@ || { \
-		echo "Error compiling $(EXEC_NAME). Check $^ for syntax errors."; \
-		exit 1; \
-	}
-	@echo "Successfully compiled $(EXEC_NAME)"
+# Define the output executables
+EXECUTABLES := $(patsubst $(SRC_DIR)/%.cpp, $(BIN_DIR)/%, $(SOURCES))
 
-$(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp | $(BUILD_DIR)
-	@$(CXX) $(CXXFLAGS) -MMD -MP -c $< -o $@ || { \
-		echo "Error compiling $<. Check $< for syntax errors."; \
-		exit 1; \
-	}
-	@echo "Compiled $< successfully."
+# Default target
+all: $(EXECUTABLES)
+	@echo "Build finished. Switch to the bin directory to run the executables."
 
--include $(DEPS)
+$(BIN_DIR):
+	@mkdir -p $(BIN_DIR)
 
-$(BUILD_DIR):
-	@mkdir -p $(BUILD_DIR)
+# Link each cpp file into its own executable
+$(BIN_DIR)/%: $(SRC_DIR)/%.cpp | $(BIN_DIR)
+	@$(CXX) $(CXXFLAGS) -o $@ $<
+	@echo "Successfully compiled $<"
 
-$(OUTPUT_DIR):
-	@mkdir -p $(OUTPUT_DIR)
-
+# Clean target to remove the executables
 clean:
-	@rm -rf $(BUILD_DIR)/*.o $(TARGET)
-	@rm -rf $(BUILD_DIR)/*.d $(TARGET)
-	@echo "Cleaned the project."
+	@rm -f $(EXECUTABLES)
+	@echo "Cleaned up."
+
+.PHONY: all clean
