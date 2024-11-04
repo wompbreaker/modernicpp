@@ -1,6 +1,6 @@
 # Task 2: Implementing `MyUniquePtr`
 
-Implement type `MyUniquePtr` which will have the same functionalities as standard library type `unique_ptr`. In `exercise4.cpp` file there is code that uses `unique_ptr`, and your type should be able to replace `unique_ptr` in that code (i.e. only implement functionalities used by that code).
+Implement type `MyUniquePtr` which will have the same functionalities as standard library type `unique_ptr`. In `main.cpp` file there is code that uses `unique_ptr`, and your type should be able to replace `unique_ptr` in that code (i.e. only implement functionalities used by that code).
 
 ## Instructions
 

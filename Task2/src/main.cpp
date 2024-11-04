@@ -1,48 +1,42 @@
-#include <iostream>
-
 #include <memory>
 #include "MyUniquePtr.h"
 
-using std::cout;
-
-
-#define myUP std::unique_ptr
-//#define myUP MyUniquePtr
-
+#define myUP MyUniquePtr
 
 struct MyClass {
 	MyClass(int a, int b, int c) : x(a), y(b), z(c) {}
 	int x, y, z;
 };
 
-
 void foo(const MyClass& x) {
-	cout << x.x;
+	std::cout << x.x;
 }
 
 void bar(const MyClass* x) {
-	cout << x->y;
+	std::cout << x->y;
 }
 
-myUP<MyClass> makeObjectUP()
-{
-	//return std::make_unique<MyClass>(); // but we can not implement make_unique at the moment
-	return myUP<MyClass>(new MyClass(1, 2, 3));
+myUP<MyClass> make_object_up() {
+	#ifdef CUSTOM_MAKE_UNIQUE
+		return mup::make_unique<MyClass>(1, 2, 3);
+	#else
+		return myUP<MyClass>(new MyClass(1, 2, 3));
+	#endif  /* CUSTOM_MAKE_UNIQUE */
 }
-
 
 int main()
 {
 	myUP<MyClass> p;
-	p = makeObjectUP();
+	p = make_object_up();
+	std::cout << p.get() << "\n";
 	foo(*p);
 	bar(p.get());
-	cout << p->z; // NOTE: do this last; look up -> operator on the Internet
+	std::cout << p->z << "\n";
 
 	// Errors: disallow this
-	//myUP<MyClass> q{p};
-	//myUP<MyClass> r;
-	//r = p;
+	// myUP<MyClass> q{p};
+	// myUP<MyClass> r;
+	// r = p;
 
 	// @TODO: print "Hi!" from destructor
 	return 0;
