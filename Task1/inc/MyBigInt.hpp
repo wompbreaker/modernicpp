@@ -1,5 +1,5 @@
-#ifndef _MY_BIG_INT_
-#define _MY_BIG_INT_
+#ifndef MY_BIG_INT_HPP
+#define MY_BIG_INT_HPP
 
 #include <cstdint>
 #include <array>
@@ -23,4 +23,4 @@ private:
 
 MyBigInt operator"" _mbi(const char* str);
 
-#endif  /* _MY_BIG_INT_ */
+#endif  /* MY_BIG_INT_HPP */
